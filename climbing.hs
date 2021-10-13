@@ -1,11 +1,5 @@
 import Data.Array
-
-dedup :: Eq a => [a] -> [a]
-dedup [x] = [x]
-dedup [] = []
-dedup (x:y:xs)
-    | x == y    =  dedup (x:xs)
-    | otherwise = x :  dedup (y:xs)
+import Data.List
 
 binarySearch :: Array Int Int -> (Int, Int) -> Int -> Int
 binarySearch haystack (start, end) needle
@@ -22,7 +16,7 @@ binarySearch haystack (start, end) needle
 solve :: [Int] -> [Int]
 solve (n:rest) = map ((+1) . binaryFun) player
     where
-        ranked = dedup $ take n rest
+        ranked = map head . group $ take n rest
         rankedArr = array (0, (length ranked) - 1) [(i, x) | (i, x) <- zip [0..] ranked]
         binaryFun = binarySearch rankedArr (0, (length ranked) - 1)
         player = tail $ drop n rest
